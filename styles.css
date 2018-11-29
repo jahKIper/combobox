@@ -1,0 +1,104 @@
+.mydropdown, .combobox {
+	position: relative;
+	font-size: 12px;
+}
+.combobox > .downarrow, .mydropdown > .downarrow {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: 1.25em;
+
+	cursor: default;
+	nav-index: -1;
+
+	border-width: 0px;
+	border-style: inherit;
+	border-color: inherit;
+}
+
+.combobox:not(.mydropdown) > .downarrow {
+	border-left-width: 1px;
+}
+
+.downarrow:empty::before {
+	content: '▾';
+}
+.downarrow::before, .downarrow > *:only-child {
+	text-align: center;
+	position: relative;
+	top: 50%;
+	display: block;
+	transform: translateY(-50%);
+}
+.mydropdown > *:last-child,
+.combobox > *:last-child {
+	display: block;
+	opacity: 0;
+	pointer-events: none;
+
+	transition: 0.4s;
+	position: absolute;
+	left: 0;
+	top: 100%;
+	border: 1px solid #888;
+	background-color: #fff;
+	z-index: 9999;
+	min-width: 100%;
+	box-sizing: border-box;
+}
+.mydropdown:focus > *:last-child,
+.mydropdown > *:focus ~ *:last-child,
+.combobox > .downarrow:focus ~ *:last-child,
+.combobox > .sticky:last-child:hover,
+.mydropdown > .sticky:last-child:hover,
+.combobox > .less-sticky:last-child:hover,
+.mydropdown > .less-sticky:last-child:hover,
+.combobox > *:last-child:focus:not(.less-sticky),
+.mydropdown > *:last-child:focus:not(.less-sticky) {
+	display: block;
+	opacity: 1;
+	transition: 0.15s;
+	pointer-events: auto;
+}
+/* focus-within not supported by Edge/IE. Unsupported selectors cause
+   the entire block to be ignored, so we must repeat all styles for
+   focus-within separately. */
+.combobox > *:last-child:focus-within:not(.less-sticky),
+.mydropdown > *:last-child:focus-within:not(.less-sticky) {
+	display: block;
+	opacity: 1;
+	transition: 0.15s;
+	pointer-events: auto;
+}
+/* detect Edge/IE and behave if though less-sticky is on for all
+   dropdowns (otherwise links won't be clickable) */
+@supports (-ms-ime-align:auto) {
+	.mydropdown > *:last-child:hover {
+		display: block;
+		opacity: 1;
+		pointer-events: auto;
+	}
+}
+/* detect IE and do the same thing. */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	.mydropdown > *:last-child:hover {
+		display: block;
+		opacity: 1;
+		pointer-events: auto;
+	}
+}
+.mydropdown:not(.sticky) > *:not(:last-child):focus,
+.mydropdown:not(.sticky) .dropdown-item:focus,
+.downarrow:focus, .mydropdown:focus {
+	pointer-events: none;
+}
+
+.combobox *,.combobox *:before,.combobox *:after {
+	box-sizing: border-box;
+	font-size: 12px;
+}
+.combobox > *:first-child {
+	box-sizing: border-box;
+}
